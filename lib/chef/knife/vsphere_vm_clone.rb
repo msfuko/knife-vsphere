@@ -148,6 +148,11 @@ class Chef::Knife::VsphereVmClone < Chef::Knife::BaseVsphereCommand
          description: 'The ssh username',
          default: 'root'
 
+  option :use_sudo_password,
+         long: '--use-sudo-password',
+         description: 'Perform a bootstrap operation with sudo; specify the password with the -P (or --ssh-password) option.',
+         boolean: false
+
   option :ssh_password,
          short: '-P PASSWORD',
          long: '--ssh-password PASSWORD',
@@ -724,6 +729,7 @@ class Chef::Knife::VsphereVmClone < Chef::Knife::BaseVsphereCommand
     bootstrap.config[:ssh_port] = get_config(:ssh_port)
     bootstrap.config[:identity_file] = get_config(:identity_file)
     bootstrap.config[:use_sudo] = true unless get_config(:ssh_user) == 'root'
+    bootstrap.config[:use_sudo_password] = get_config(:use_sudo_password)
     bootstrap.config[:log_level] = get_config(:log_level)
     bootstrap_common_params(bootstrap)
   end
